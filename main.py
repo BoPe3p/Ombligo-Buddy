@@ -1,6 +1,7 @@
 import flet as ft
 import flet_audio as fa
 import pantalla_juego
+import pantalla_ranking
 import random
 
 def main(page: ft.Page):
@@ -14,49 +15,40 @@ def main(page: ft.Page):
     # --- DATOS DE LOS K ---
     amigos = [
         {"id": 1, "nombre": "Rafalorcaa", "color": "blue", "foto": 'fotogato.jpg'},
-        {"id": 2, "nombre": "Belto", "color": "blue", "foto": 'fotogato.jpg'},
-        {"id": 3, "nombre": "Longa", "color": "blue", "foto": 'fotogato.jpg'},
-        {"id": 4, "nombre": "Goonzalo", "color": "blue", "foto": 'fotogato.jpg'},
-        {"id": 5, "nombre": "BP11", "color": "blue", "foto": 'fotogato.jpg'},
+        {"id": 2, "nombre": "Belto", "color": "blue", "foto": 'maxito.jpeg'},
+        {"id": 3, "nombre": "Longa", "color": "blue", "foto": 'longa.jpeg'},
+        {"id": 4, "nombre": "Goonzalo", "color": "blue", "foto": 'goonzalindo.jpeg'},
+        {"id": 5, "nombre": "BP11", "color": "blue", "foto": 'BP11.jpeg'},
         {"id": 6, "nombre": "Benjita", "color": "blue", "foto": 'fotogato.jpg'},
 
     ]
 
-    # --- NAVEGACIÓN ---
-    
-    def ir_al_inicio(e=None):
-        # Esta función la pasaremos al otro archivo para poder volver
-        page.clean()
-        cargar_pantalla_seleccion()
-
-    def ir_al_juego(jugador):
-        # Llamamos a la función que creamos en el OTRO archivo
-        pantalla_juego.interfaz_juego(page, jugador, ir_al_inicio)
-
     # --- MUSICA ---
-    def music_button(e):
-
-        if e.state == fa.AudioState.PAUSED:
-            b.text = "Resume playing"
-            b.on_click = lambda e: audio1.resume()
-
-        elif e.state == fa.AudioState.PLAYING:
-            b.text = "Pause playing"
-            b.on_click = lambda e: audio1.pause()
-
-        b.update()
-
     n = random.randint(1, 4)
 
     audio1 = fa.Audio(
         src= f"Musica maestro{n}.mp3",
         autoplay=True,
-        on_state_changed=music_button,
+        volume=0.5,
+        release_mode='loop'
     )
-    b = ft.ElevatedButton("Pause playing", on_click=lambda _: audio1.pause())
 
     page.overlay.append(audio1)
-    page.add(ft.Text("8===============================================D."), b)
+    page.update()
+
+    # --- NAVEGACIÓN ---
+    
+    def ir_al_inicio(e=None):
+        page.clean()
+        cargar_pantalla_seleccion()
+
+    def ir_al_juego(jugador):
+        pantalla_juego.interfaz_juego(page, jugador, ir_al_inicio)
+
+    def ir_al_ranking(jugador):
+        pantalla_ranking.interfaz_ranking(page, ir_al_inicio)
+
+    page.add(ft.Text("8===============================================D."))
 
     # --- PANTALLA SELECCIÓN ---
     
@@ -86,7 +78,18 @@ def main(page: ft.Page):
         grilla = ft.GridView(
             expand=1, runs_count=2, max_extent=150, child_aspect_ratio=1.0, spacing=10, run_spacing=10, controls=items_grid
         )
-        page.add(titulo, ft.Divider(), grilla)
+
+        btn_ranking = ft.ElevatedButton(
+            text="Ver Ranking",
+            icon="emoji_events", 
+            bgcolor="orange",    
+            color="white",
+            width=200,
+            height=50,
+            on_click=ir_al_ranking 
+        )
+
+        page.add(titulo, ft.Divider(), grilla, ft.Divider(), btn_ranking)
 
     # Arrancamos
     cargar_pantalla_seleccion()
