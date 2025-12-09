@@ -37,13 +37,13 @@ def interfaz_ranking(page, funcion_volver):
         color_icono = 'blue'
         
         if posicion == 1:
-            icono_lead = ft.Icon(ft.icons.EMOJI_EVENTS, color="yellow")
+            icono_lead = ft.Icon(name="emoji_events", color="yellow")
             color_icono = "yellow"
         elif posicion == 2:
-            icono_lead = ft.Icon(ft.icons.looks_two, color="grey")
+            icono_lead = ft.Icon(name='looks_two', color="grey")
             color_icono = "grey"
         elif posicion == 3:
-            icono_lead = ft.Icon(ft.icons.looks_3, color="brown")
+            icono_lead = ft.Icon(name='looks_3', color="brown")
             color_icono = "brown"
 
         tarjeta = ft.Card(

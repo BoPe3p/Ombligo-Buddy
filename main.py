@@ -18,23 +18,29 @@ def main(page: ft.Page):
         {"id": 2, "nombre": "Belto", "color": "blue", "foto": 'maxito.jpeg'},
         {"id": 3, "nombre": "Longa", "color": "blue", "foto": 'longa.jpeg'},
         {"id": 4, "nombre": "Goonzalo", "color": "blue", "foto": 'goonzalindo.jpeg'},
-        {"id": 5, "nombre": "BP11", "color": "blue", "foto": 'BP11.jpeg'},
+        {"id": 5, "nombre": "BP11", "color": "blue", "foto": 'bp11.jpeg'},
         {"id": 6, "nombre": "Benjita", "color": "blue", "foto": 'fotogato.jpg'},
 
     ]
 
     # --- MUSICA ---
-    n = random.randint(1, 4)
+    musica_existente = False
+    for control in page.overlay:
+        if isinstance(control, fa.Audio):
+            musica_existente = True
+            break
 
-    audio1 = fa.Audio(
-        src= f"Musica maestro{n}.mp3",
-        autoplay=True,
-        volume=0.5,
-        release_mode='loop'
-    )
-
-    page.overlay.append(audio1)
-    page.update()
+    if not musica_existente: 
+        n = random.randint(1, 4)
+        
+        audio1 = fa.Audio(
+            src=f"Musica maestro{n}.mp3", 
+            autoplay=True, 
+            volume=0.5, 
+            release_mode="loop"
+        )
+        page.overlay.append(audio1)
+        page.update()
 
     # --- NAVEGACIÓN ---
     
@@ -45,7 +51,7 @@ def main(page: ft.Page):
     def ir_al_juego(jugador):
         pantalla_juego.interfaz_juego(page, jugador, ir_al_inicio)
 
-    def ir_al_ranking(jugador):
+    def ir_al_ranking(e):
         pantalla_ranking.interfaz_ranking(page, ir_al_inicio)
 
     page.add(ft.Text("8===============================================D."))
