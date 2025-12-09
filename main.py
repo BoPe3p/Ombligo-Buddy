@@ -1,5 +1,7 @@
 import flet as ft
+import flet_audio as fa
 import pantalla_juego
+import random
 
 def main(page: ft.Page):
     # Configuración básica de la ventana 
@@ -20,7 +22,7 @@ def main(page: ft.Page):
 
     ]
 
-# --- NAVEGACIÓN ---
+    # --- NAVEGACIÓN ---
     
     def ir_al_inicio(e=None):
         # Esta función la pasaremos al otro archivo para poder volver
@@ -30,6 +32,31 @@ def main(page: ft.Page):
     def ir_al_juego(jugador):
         # Llamamos a la función que creamos en el OTRO archivo
         pantalla_juego.interfaz_juego(page, jugador, ir_al_inicio)
+
+    # --- MUSICA ---
+    def music_button(e):
+
+        if e.state == fa.AudioState.PAUSED:
+            b.text = "Resume playing"
+            b.on_click = lambda e: audio1.resume()
+
+        elif e.state == fa.AudioState.PLAYING:
+            b.text = "Pause playing"
+            b.on_click = lambda e: audio1.pause()
+
+        b.update()
+
+    n = random.randint(1, 4)
+
+    audio1 = fa.Audio(
+        src= f"Musica maestro{n}.mp3",
+        autoplay=True,
+        on_state_changed=music_button,
+    )
+    b = ft.ElevatedButton("Pause playing", on_click=lambda _: audio1.pause())
+
+    page.overlay.append(audio1)
+    page.add(ft.Text("8===============================================D."), b)
 
     # --- PANTALLA SELECCIÓN ---
     

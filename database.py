@@ -3,8 +3,8 @@ from oauth2client.service_account import ServiceAccountCredentials
 import datetime
 
 # --- CONFIGURACIÓN ---
-NOMBRE_HOJA = "JuegoCopasDB"  # El nombre de tu archivo en Google Drive
-ARCHIVO_CREDENCIALES = "credenciales.json" # El archivo que bajaste de Google
+NOMBRE_HOJA = "App Ombligo"  
+ARCHIVO_CREDENCIALES = "credenciales.json" 
 
 def conectar():
     """Conecta con Google y devuelve la hoja de cálculo"""
@@ -41,3 +41,24 @@ def guardar_accion(jugador, trago, puntos):
     else:
         print("❌ No se pudo guardar (Modo Offline)")
         return False
+    
+def obtener_ranking():
+    """Descarga los daots y obtiene el ranking de jugadores"""
+    hoja = conectar()
+    if not hoja:
+        return []
+    
+    registro = hoja.get_all_records()
+    puntajes = {}
+
+    for fila in registro:
+        nombre = fila['Jugador'] # <- Lo que sale en el sheet
+        puntos = int(fila['Puntos'])
+
+        if nombre in puntajes:
+            puntajes[nombre] += puntos
+        else:
+            puntajes[nombre] = puntos
+        
+    ranking_ordenado = sorted(puntajes.items(), key=lambda x: x[1], reverse=True)
+    return ranking_ordenado

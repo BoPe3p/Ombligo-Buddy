@@ -5,12 +5,15 @@ import database
 # --- CONFIGURACIÓN DEL JUEGO ---
 # Definimos los tragos aquí porque pertenecen a la pantalla del juego
 LISTA_TRAGOS = [
-    {"nombre": "Cerveza", "puntos": 10, "icono": "🍺", "color": "orange"},
+    {"nombre": "Chela", "puntos": 5, "icono": "🍺", "color": "orange"},
     {"nombre": "Shot", "puntos": 20, "icono": "🥃", "color": "red"},
-    {"nombre": "Combinado", "puntos": 15, "icono": "🥤", "color": "brown"},
-    {"nombre": "Vino", "puntos": 12, "icono": "🍷", "color": "purple"},
-    {"nombre": "Agua (Penal)", "puntos": -1, "icono": "💧", "color": "blue"},
-    {"nombre": "Vomito", "puntos": -50, "icono": "🤮", "color": "green"},
+    {"nombre": "Piscola", "puntos": 10, "icono": "🥤", "color": "brown"},
+    {"nombre": "Kevin/Melvin", "puntos": 15, "icono": "🍷", "color": "purple"},
+    {"nombre": "Tropical Gin", "puntos": 10, "icono": "🍹", "color": "yellow"},
+    {"nombre": "Vodka", "puntos": 15, "icono": "🍾", "color": "grey"},
+    {"nombre": "Energetica", "puntos": 1, "icono": "☕", "color": "red"},
+    {"nombre": "Agua", "puntos": -1, "icono": "💧", "color": "blue"},
+    {"nombre": "Waje", "puntos": -50, "icono": "🤮", "color": "green"},
 ]
 
 def registrar_accion(e, page):
@@ -25,7 +28,6 @@ def registrar_accion(e, page):
     )
     
     # --- 2. LLAMAMOS A GOOGLE SHEETS ---
-    # Esto puede tardar 1 seg, por eso avisamos antes
     exito = database.guardar_accion(
         jugador_info['nombre'], 
         trago_info['nombre'], 
